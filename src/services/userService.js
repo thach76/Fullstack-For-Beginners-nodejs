@@ -7,6 +7,14 @@ const jwt = require('jsonwebtoken');
 
 const createUserService = async (name, email, password) => {
     try {
+
+        //check if user already exist
+        const user = await User.findOne({email: email});
+        if (user) {
+            console.log(`User ${name} already exists, duplicate email: ${email}`);
+            return null;
+        }
+
         //hash password
         const hashPassword = await bcrypt.hash(password, saltRounds);
         
@@ -42,6 +50,7 @@ const loginService = async (email, password) => {
                 const access_token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
 
                 return {
+                    EC: 0,
                     access_token,
                     user: {
                         email: user.email,
@@ -68,8 +77,17 @@ const loginService = async (email, password) => {
     }
 }
 
+const getUserService = async () => {
+    try {
+        let result = await User.find({}).select("-password");
+        return result;
 
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 
 module.exports = {
-    createUserService, loginService,
+    createUserService, loginService, getUserService
 }
