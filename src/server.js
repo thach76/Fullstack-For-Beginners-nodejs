@@ -1,9 +1,12 @@
 require('dotenv').config();
 const express = require('express'); //commonjs
 const configViewEngine = require('./config/viewEngine');
-const apiRoutes = require('./routes/api');
+// config routers
+const homeRoutes = require("./routes/homeRoutes");
+const userRoutes = require("./routes/userRoutes");
+const destinationRoutes = require("./routes/destinationsRoutes");
+//config database
 const connection = require('./config/database');
-const { getHomepage } = require('./controllers/homeController');
 const cors = require('cors'); // for cross-origin resource sharing (CORS)
 
 const app = express();
@@ -20,8 +23,9 @@ app.use(express.urlencoded({ extended: true })) // for form data
 configViewEngine(app);
 
 //khai báo route
-app.use('/v1/api/', apiRoutes);
-app.use('/', getHomepage);
+app.use('/v1/api/destinations', destinationRoutes);
+app.use('/v1/api/', userRoutes);
+app.use("/", homeRoutes);
 
 
 (async () => {

@@ -3,23 +3,22 @@ const jwt = require('jsonwebtoken');
 
 //Tất cả api cần phải gửi kèm access token ở header, ngoại trừ login/register
 const auth = (req, res, next) => {
-    const white_list = ["/", "/register", "/login"]
-    console.log(">>> call auth" )
+    const white_list = ["/", "/register/", "/login/"]
     // not in white_list
-    if (white_list.find(item => '/v1/api/' + item === req.originalUrl)) {
-        console.log(">>> white_list")
+    if (white_list.find(item => '/v1/api' + item === req.originalUrl)) {
+        // console.log(">>> in white_list")
         next()
     } else {
-        console.log(">>> req" + req.headers['authorization'])
+        // console.log(">>> authorization: " + req.headers['authorization'])
         const authHeader = req.headers['authorization'];
 
-        if (authHeader && authHeader.split(' ')[1]){
+        if (authHeader?.split(' ')?.[1]){
             // const token = req.headers.Authorization.split(' ')[1] 
             const token = authHeader.split(' ')[1];
             // verify token
             try {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET)
-                console.log(">>> check token: " + decoded)
+                
                 req.user = decoded; // Lưu thông tin đã giải mã từ token vào req.user
                 next()
             } catch (error) {
