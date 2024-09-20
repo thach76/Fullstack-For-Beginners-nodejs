@@ -5,6 +5,7 @@ const configViewEngine = require('./config/viewEngine');
 const homeRoutes = require("./routes/homeRoutes");
 const userRoutes = require("./routes/userRoutes");
 const destinationRoutes = require("./routes/destinationsRoutes");
+const uploadRoutes = require("./routes/uploadRouter");
 //config database
 const connection = require('./config/database');
 const cors = require('cors'); // for cross-origin resource sharing (CORS)
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true })) // for form data
 configViewEngine(app);
 
 //khai báo route
+app.use('/v1/api/upload', uploadRoutes);
 app.use('/v1/api/destinations', destinationRoutes);
 app.use('/v1/api/', userRoutes);
 app.use("/", homeRoutes);
