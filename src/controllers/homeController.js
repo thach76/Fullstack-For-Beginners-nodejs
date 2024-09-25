@@ -1,7 +1,7 @@
 
 
 const getHomepage = async (req, res) => {
-    return res.render('sample.ejs')
+    return res.status(200).json('ThachDev Home');
 }
 
 module.exports = {

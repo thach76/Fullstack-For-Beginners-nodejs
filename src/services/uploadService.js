@@ -67,8 +67,9 @@ exports.uploadVideo = async (filePath) => {
     });
 
     fs.unlinkSync(filePath); // Remove file after upload
-    return `https://youtu.be/${videoResponse.data.id}`; // Return YouTube link
+    return `https://www.youtube.com/embed/${videoResponse.data.id}`; // Return YouTube link
   } catch (error) {
+    console.error('Chi tiết lỗi khi upload video:',  error.response.data);
     throw new Error('Video upload failed');
   }
 };

@@ -3,6 +3,7 @@ const router = express.Router();
 const destinationsController = require('../controllers/destinationsController');
 
 // Các route cho điểm du lịch
+router.get('/random4destinations', destinationsController.getRandomDestinations);
 router.post('/', destinationsController.createDestination);
 router.get('/', destinationsController.getAllDestinations);
 router.get('/:id', destinationsController.getDestinationById);
