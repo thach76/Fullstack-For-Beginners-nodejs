@@ -40,7 +40,7 @@ const destinationSchema = new mongoose.Schema({
         type: String,
         default: []
     }],
-    video: [{ // URL video giới thiệu về điểm đến 9
+    videos: [{ // URL video giới thiệu về điểm đến 9
         type: String,
         default: []
     }],

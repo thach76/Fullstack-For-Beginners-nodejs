@@ -17,8 +17,8 @@ const port = process.env.PORT || 8888;
 app.use(cors());
 
 //config req.body
-app.use(express.json()) // for json
-app.use(express.urlencoded({ extended: true })) // for form data
+app.use(express.json()); // for json
+app.use(express.urlencoded({ extended: true })); // for form data
 
 //config template engine
 configViewEngine(app);
@@ -36,9 +36,9 @@ app.use("/", homeRoutes);
         await connection();
 
         app.listen(port, () => {
-            console.log(`Backend Nodejs App listening on port ${port}`)
+            console.log(`Backend Nodejs App listening on port ${port}`);
         })
     } catch (error) {
-        console.log(">>> Error connect to DB: ", error)
+        console.log(">>> Error connect to DB: ");
     }
 })()
