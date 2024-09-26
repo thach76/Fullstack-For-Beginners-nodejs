@@ -1,0 +1,49 @@
+const mongoose = require('mongoose');
+
+// Schema cho comment
+const commentSchema = new mongoose.Schema({
+    user_id: { // ID của người dùng (người viết comment)
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Liên kết tới bảng User
+        required: true
+    },
+    destination_id: { // ID của điểm đến mà comment thuộc về
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Destination', // Liên kết tới bảng Destination
+        required: true
+    },
+    content: { // Nội dung của comment
+        type: String,
+        required: true
+    },
+    rating: { // Đánh giá (từ 1 đến 5 sao)
+        type: Number,
+        min: 1,
+        max: 5,
+        required: true
+    },
+    likes: [{ // Danh sách các user thích comment
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: []
+    }],
+    created_at: { // Thời gian tạo comment
+        type: Date,
+        default: Date.now
+    },
+    updated_at: { // Thời gian cập nhật comment
+        type: Date,
+        default: Date.now
+    }
+});
+
+// Tự động cập nhật `updated_at` khi bản ghi được chỉnh sửa
+commentSchema.pre('save', function (next) {
+    this.updated_at = Date.now();
+    next();
+});
+
+// Tạo model từ schema
+const Comment = mongoose.model('Comment', commentSchema);
+
+module.exports = Comment;

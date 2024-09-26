@@ -31,7 +31,7 @@ const destinationSchema = new mongoose.Schema({
         required: false, // Không bắt buộc
         default: 0
     },
-    type: { // Loại hình du lịch (văn hóa, sinh thái, tâm linh, v.v.) 7
+    type: { // hotel, tourist spot, restaurant
         type: String,
         required: false, // Không bắt buộc
         default: ""
