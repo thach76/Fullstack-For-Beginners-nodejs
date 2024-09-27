@@ -7,6 +7,14 @@ const commentSchema = new mongoose.Schema({
         ref: 'User', // Liên kết tới bảng User
         required: true
     },
+    user_name: { // Tên người dùng (bắt buộc nhập)
+        type: String,
+        required: true
+    },
+    user_email: { // Email người dùng (không bắt buộc)
+        type: String,
+        required: false
+    },
     destination_id: { // ID của điểm đến mà comment thuộc về
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Destination', // Liên kết tới bảng Destination

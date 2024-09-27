@@ -59,10 +59,44 @@ const deleteComment = async (req, res) => {
     }
 };
 
+// Lấy comment theo user_id
+const getCommentsByUserId = async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const comments = await Comment.find({ user_id });
+
+        if (!comments) {
+            return res.status(404).json({ message: 'Không tìm thấy comment cho user này.' });
+        }
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error });
+    }
+};
+
+// Lấy comment theo destination_id
+const getCommentsByDestinationId = async (req, res) => {
+    try {
+        const { destination_id } = req.params;
+        const comments = await Comment.find({ destination_id });
+
+        if (!comments) {
+            return res.status(404).json({ message: 'Không tìm thấy comment cho điểm đến này.' });
+        }
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error });
+    }
+};
+
 module.exports = {
     getAllComments,
     getCommentById,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getCommentsByUserId,
+    getCommentsByDestinationId,
 };

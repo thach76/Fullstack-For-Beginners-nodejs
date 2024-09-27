@@ -26,10 +26,11 @@ const deleteComment = async (id) => {
     return await Comment.findByIdAndDelete(id);
 };
 
+    
 module.exports = {
     getAllComments,
     getCommentById,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
 };
