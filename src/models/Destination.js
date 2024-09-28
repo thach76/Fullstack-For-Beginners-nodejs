@@ -37,12 +37,24 @@ const destinationSchema = new mongoose.Schema({
         default: ""
     },
     images: [{ // Mảng chứa các URL của nhiều hình ảnh 8
-        type: String,
-        default: []
+        url: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            default: ''
+        }
     }],
     videos: [{ // URL video giới thiệu về điểm đến 9
-        type: String,
-        default: []
+        url: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            default: ''
+        }
     }],
     created_at: { // Thời gian tạo bản ghi 10 
         type: Date,

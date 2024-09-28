@@ -5,7 +5,7 @@ const commentSchema = new mongoose.Schema({
     user_id: { // ID của người dùng (người viết comment)
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Liên kết tới bảng User
-        required: true
+        required: false, // không bắt buộc
     },
     user_name: { // Tên người dùng (bắt buộc nhập)
         type: String,
@@ -28,7 +28,7 @@ const commentSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 5,
-        required: true
+        required: false
     },
     likes: [{ // Danh sách các user thích comment
         type: mongoose.Schema.Types.ObjectId,
