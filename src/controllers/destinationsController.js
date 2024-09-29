@@ -67,6 +67,7 @@ exports.getRandomDestinations = async (req, res) => {
     const result = destinations.map((dest, index) => {
       const randomImage = destinationsService.getRandomItem(dest.images).url;
       return {
+        _id: dest._id,
         id: `top-banner-${index + 1}`,
         destination: dest.name,
         visitValue: dest.visit.toString(),
