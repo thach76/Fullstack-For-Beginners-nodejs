@@ -18,8 +18,8 @@ const auth = (req, res, next) => {
             // verify token
             try {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET)
-                
                 req.user = decoded; // Lưu thông tin đã giải mã từ token vào req.user
+                // console.log("call auth: ", req.user);
                 next()
             } catch (error) {
                 return res.status(401).json({message: "Token bị hết hạn/hoặc không hợp lệ" })

@@ -26,10 +26,12 @@ const deleteDestination = async (id) => {
   return await Destination.findByIdAndDelete(id);
 };
 
-// Lấy ngẫu nhiên 4 điểm đến
-const getRandomDestinations = async () => {
-  const destinations = await Destination.aggregate([{ $sample: { size: 4 } }]);
-  return destinations;
+// Lấy ngẫu nhiên n điểm đến
+const getRandomDestinations = async (count) => {
+  const randomDestinations = await Destination.aggregate([
+    { $sample: { size: count } }  // Lấy ngẫu nhiên `count` đối tượng
+  ]);
+  return randomDestinations;
 };
 
 // Hàm lấy tất cả ảnh
@@ -44,24 +46,35 @@ const getAllImages = async (destinationId) => {
     return destination ? destination.videos : [];
   };
   
-  // Hàm lấy ngẫu nhiên 1 ảnh
-  const getRandomImage = (images) => {
-    return getRandomItem(images);
+  // Hàm lấy ngẫu nhiên n item
+  const getRandomItems = (items, count) => {
+    if (!items || items.length === 0) return []; // Kiểm tra nếu mảng trống
+  
+    const result = [];
+    const numItems = items.length;
+  
+    // Nếu số lượng cần lấy nhỏ hơn hoặc bằng số lượng phần tử trong mảng
+    if (count <= numItems) {
+      // Shuffle để đảm bảo không lặp phần tử
+      const shuffledItems = [...items];
+      for (let i = shuffledItems.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [shuffledItems[i], shuffledItems[randomIndex]] = [shuffledItems[randomIndex], shuffledItems[i]];
+      }
+  
+      // Trả về n phần tử đầu tiên
+      return shuffledItems.slice(0, count);
+    } else {
+      // Nếu số lượng cần lấy lớn hơn số lượng phần tử trong mảng, cho phép lặp lại
+      for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * numItems); // Lấy chỉ số ngẫu nhiên
+        result.push(items[randomIndex]); // Thêm phần tử ngẫu nhiên vào kết quả
+      }
+  
+      return result;
+    }
   };
   
-  // Hàm lấy ngẫu nhiên 4 ảnh
-  const getRandomImages = (images) => {
-    if (!images || images.length === 0) return [];
-    const randomImages = images.sort(() => 0.5 - Math.random()).slice(0, 4);
-    return randomImages;
-  };
-  
-  // Hàm lấy ngẫu nhiên một item
-  const getRandomItem = (items) => {
-    if (!items || items.length === 0) return null; // Kiểm tra xem mảng có rỗng không
-    const randomIndex = Math.floor(Math.random() * items.length); // Lấy chỉ số ngẫu nhiên
-    return items[randomIndex]; // Trả về item (ảnh/video) ngẫu nhiên
-  };
 
 module.exports = {
   createDestination,
@@ -72,6 +85,5 @@ module.exports = {
   getRandomDestinations,
   getAllImages,
   getAllVideos,
-  getRandomImage,
-  getRandomItem,
+  getRandomItems,
 };

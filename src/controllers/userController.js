@@ -1,7 +1,7 @@
 const { createUserService, loginService, getUserService } = require("../services/userService");
 
 const createUser = async (req, res) => { 
-    console.log(">>> check req.body", req.body);
+    // console.log(">>> check req.body", req.body);
     const { name, email, password } = req.body;
     
     const data = await createUserService(name, email, password);

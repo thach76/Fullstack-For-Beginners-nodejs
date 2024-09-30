@@ -7,22 +7,22 @@ const commentSchema = new mongoose.Schema({
         ref: 'User', // Liên kết tới bảng User
         required: false, // không bắt buộc
     },
+    destination_id: { // ID của điểm đến mà comment thuộc về
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Destination', // Liên kết tới bảng Destination
+        required: false,
+    },
     user_name: { // Tên người dùng (bắt buộc nhập)
         type: String,
-        required: true
+        required: false,
     },
     user_email: { // Email người dùng (không bắt buộc)
         type: String,
         required: false
     },
-    destination_id: { // ID của điểm đến mà comment thuộc về
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Destination', // Liên kết tới bảng Destination
-        required: true
-    },
     content: { // Nội dung của comment
         type: String,
-        required: true
+        required: false
     },
     rating: { // Đánh giá (từ 1 đến 5 sao)
         type: Number,

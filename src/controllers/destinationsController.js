@@ -60,48 +60,29 @@ exports.deleteDestination = async (req, res) => {
   }
 };
 
-// Lấy ngẫu nhiên 4 điểm đến
+// Lấy ngẫu nhiên n điểm đến
 exports.getRandomDestinations = async (req, res) => {
+  const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
+
   try {
-    const destinations = await destinationsService.getRandomDestinations();
-    const result = destinations.map((dest, index) => {
-      const randomImage = destinationsService.getRandomItem(dest.images).url;
-      return {
-        _id: dest._id,
-        id: `top-banner-${index + 1}`,
-        destination: dest.name,
-        visitValue: dest.visit.toString(),
-        territoryValue: dest.territory.toString(),
-        priceValue: dest.price.toString(),
-        imgLink: randomImage,
-      };
-    });
-    res.status(200).json(result);
+    const destinations = await destinationsService.getRandomDestinations(count);
+    res.status(200).json(destinations);
   } catch (error) {
     console.error("Error retrieving random destinations:", error);
-    res.status(500).json({ message: "Lỗi khi lấy điểm du lịch", error });
+    res.status(500).json({ message: "Lỗi khi lấy điểm du lịch getRandomDestinations", error });
   }
 };
 
-// API lấy ngẫu nhiên 1 ảnh
-exports.getRandomImage = async (req, res) => {
-  try {
-    const destination = await destinationsService.getDestinationById(req.params.id);
-    const randomImage = destinationsService.getRandomItem(destination.images);
-    res.status(200).json({ image: randomImage });
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi khi lấy ảnh ngẫu nhiên", error });
-  }
-};
-
-// Lấy ngẫu nhiên 4 ảnh
+// Lấy ngẫu nhiên n ảnh
 exports.getRandomImages = async (req, res) => {
+  const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
+
   try {
     const images = await destinationsService.getAllImages(req.params.id);
-    const randomImages = destinationsService.getRandomImages(images);
+    const randomImages = destinationsService.getRandomItems(images, count);
     res.status(200).json(randomImages);
   } catch (error) {
-    res.status(500).json({ message: "Lỗi khi lấy ảnh ngẫu nhiên", error });
+    res.status(500).json({ message: "Lỗi khi lấy ảnh ngẫu nhiên getRandomImages", error });
   }
 };
 
@@ -116,11 +97,12 @@ exports.getAllImages = async (req, res) => {
 };
 
 
-// API lấy ngẫu nhiên 1 video
-exports.getRandomVideo = async (req, res) => {
+// API lấy ngẫu nhiên n video
+exports.getRandomVideos = async (req, res) => {
+  const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
   try {
     const destination = await destinationsService.getDestinationById(req.params.id);
-    const randomVideo = destinationsService.getRandomItem(destination.video);
+    const randomVideo = destinationsService.getRandomItems(destination.video, count);
     res.status(200).json({ video: randomVideo });
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy video ngẫu nhiên", error });
