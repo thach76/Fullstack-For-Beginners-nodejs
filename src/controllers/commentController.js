@@ -1,3 +1,4 @@
+const Comment = require('../models/Comment');
 const commentService = require('../services/commentService');
 
 // Lấy tất cả các comment
@@ -26,10 +27,10 @@ const getCommentById = async (req, res) => {
 // Tạo comment mới
 const createComment = async (req, res) => {
     try {
-        const newComment = await commentService.createComment(req.body);
+        const newComment = await commentService.createComment(req.body.user_id);
         res.status(201).json(newComment);
     } catch (err) {
-        res.status(400).json({ message: 'Dữ liệu không hợp lệ' });
+        res.status(400).json({ message: 'Dữ liệu không hợp lệ' , error: err , data: req.body.user_id });
     }
 };
 
@@ -77,19 +78,22 @@ const getCommentsByUserId = async (req, res) => {
 
 // Lấy comment theo destination_id
 const getCommentsByDestinationId = async (req, res) => {
+    const { destination_id } = req.params;
     try {
-        const { destination_id } = req.params;
-        const comments = await Comment.find({ destination_id });
-
-        if (!comments) {
-            return res.status(404).json({ message: 'Không tìm thấy comment cho điểm đến này.' });
+        if (!destination_id) {
+            return res.status(400).json({ message: 'destination_id không hợp lệ.' });
         }
+        
+        // Sắp xếp theo created_at, từ mới nhất đến cũ nhất
+        const comments = await Comment.find({ destination_id }).sort({ created_at: -1 });
 
         res.status(200).json(comments);
     } catch (error) {
-        res.status(500).json({ message: 'Có lỗi xảy ra.', error });
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error: error.message , req_status: destination_id});
     }
 };
+
+
 
 module.exports = {
     getAllComments,

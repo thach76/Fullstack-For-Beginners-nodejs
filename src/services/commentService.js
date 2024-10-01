@@ -1,4 +1,5 @@
 const Comment = require('../models/Comment');
+const mongoose = require('mongoose');
 
 // Lấy tất cả các comment
 const getAllComments = async () => {
@@ -12,6 +13,7 @@ const getCommentById = async (id) => {
 
 // Tạo comment mới
 const createComment = async (data) => {
+    // const { user_id, destination_id, content, rating } = data;
     const newComment = new Comment(data);
     return await newComment.save();
 };

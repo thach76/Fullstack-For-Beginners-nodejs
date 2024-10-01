@@ -26,7 +26,7 @@ const commentSchema = new mongoose.Schema({
     },
     rating: { // Đánh giá (từ 1 đến 5 sao)
         type: Number,
-        min: 1,
+        min: 0,
         max: 5,
         required: false
     },
