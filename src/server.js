@@ -8,6 +8,7 @@ const destinationRoutes = require("./routes/destinationsRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const googleRoutes = require("./routes/googleRoutes");
+const newsRoutes = require('./routes/newsRoutes');
 //config database
 const connection = require('./config/database');
 const cors = require('cors'); // for cross-origin resource sharing (CORS)
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true })); // for form data
 configViewEngine(app);
 
 //khai báo route
+app.use('/v1/api/news', newsRoutes);
 app.use('/v1/api/google', googleRoutes);
 app.use('/v1/api/comments', commentRoutes);
 app.use('/v1/api/upload', uploadRoutes);

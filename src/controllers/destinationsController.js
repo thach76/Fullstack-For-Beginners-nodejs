@@ -61,15 +61,29 @@ exports.deleteDestination = async (req, res) => {
 };
 
 // Lấy ngẫu nhiên n điểm đến
+// exports.getRandomDestinations = async (req, res) => {
+//   const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
+
+//   try {
+//     const destinations = await destinationsService.getRandomDestinations(count);
+//     res.status(200).json(destinations);
+//   } catch (error) {
+//     console.error("Error retrieving random destinations:", error);
+//     res.status(500).json({ message: "Lỗi khi lấy điểm du lịch getRandomDestinations", error });
+//   }
+// };
+
+// Lấy ngẫu nhiên n điểm đến, có thể lọc theo type (nếu có)
 exports.getRandomDestinations = async (req, res) => {
-  const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
+  const count = parseInt(req.query.count) || 1;  // Số lượng điểm đến cần lấy, mặc định là 1
+  const { type } = req.query;  // Lấy type từ query params (nếu có)
 
   try {
-    const destinations = await destinationsService.getRandomDestinations(count);
+    const destinations = await destinationsService.getRandomDestinations(type, count);
     res.status(200).json(destinations);
   } catch (error) {
     console.error("Error retrieving random destinations:", error);
-    res.status(500).json({ message: "Lỗi khi lấy điểm du lịch getRandomDestinations", error });
+    res.status(500).json({ message: "Lỗi khi lấy điểm du lịch", error });
   }
 };
 

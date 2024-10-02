@@ -27,11 +27,25 @@ const deleteDestination = async (id) => {
 };
 
 // Lấy ngẫu nhiên n điểm đến
-const getRandomDestinations = async (count) => {
-  const randomDestinations = await Destination.aggregate([
-    { $sample: { size: count } }  // Lấy ngẫu nhiên `count` đối tượng
-  ]);
-  return randomDestinations;
+// const getRandomDestinations = async (count) => {
+//   const randomDestinations = await Destination.aggregate([
+//     { $sample: { size: count } }  // Lấy ngẫu nhiên `count` đối tượng
+//   ]);
+//   return randomDestinations;
+// };
+
+// Lấy ngẫu nhiên n điểm đến, có thể lọc theo type (nếu có)
+const getRandomDestinations = async (type, count) => {
+  try {
+    const matchStage = type ? { $match: { type } } : {};  // Nếu có type thì lọc, không thì bỏ qua
+    const randomDestinations = await Destination.aggregate([
+      matchStage,  // Thêm bước match nếu có type
+      { $sample: { size: count } }  // Lấy ngẫu nhiên n kết quả
+    ]);
+    return randomDestinations;
+  } catch (error) {
+    throw new Error("Error fetching random destinations");
+  }
 };
 
 // Hàm lấy tất cả ảnh
