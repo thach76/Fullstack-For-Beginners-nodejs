@@ -12,6 +12,11 @@ const commentSchema = new mongoose.Schema({
         ref: 'Destination', // Liên kết tới bảng Destination
         required: false,
     },
+    news_id: { // ID của news mà comment thuộc về
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'News', // Liên kết tới bảng News
+        required: false,
+    },
     user_name: { // Tên người dùng (bắt buộc nhập)
         type: String,
         required: false,

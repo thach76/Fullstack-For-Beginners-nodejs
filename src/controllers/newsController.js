@@ -11,6 +11,18 @@ exports.getAllNews = async (req, res) => {
     }
 };
 
+// Lấy tin tức theo ID
+    exports.getNewsById = async (req, res) => {
+        const { id } = req.params;
+        try {
+            const news = await newsService.getNewsById(id);
+            res.status(200).json(news);
+        } catch (error) {
+            console.error("Error retrieving news by ID:", error);
+            res.status(500).json({ message: "Lỗi khi lấy tin tức theo ID", error });
+        }
+    };
+
 // Tạo mới tin tức
 exports.createNews = async (req, res) => {
     const { title, content, summary, author, category, tags, images } = req.body;

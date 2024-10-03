@@ -6,6 +6,10 @@ const router = express.Router();
 // Route lấy tất cả tin tức
 router.get('/', newsController.getAllNews);
 
+// Route lấy tin tức theo id
+
+router.get('/:id', newsController.getNewsById);
+
 // Route tạo tin tức mới
 router.post('/', newsController.createNews);
 

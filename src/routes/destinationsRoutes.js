@@ -11,6 +11,9 @@ router.post("/", destinationsController.createDestination);
 // Lấy tất cả các điểm du lịch
 router.get("/", destinationsController.getAllDestinations);
 
+// Lấy điểm du lịch theo loại
+router.get('/type/:type', destinationsController.getDestinationsByType);
+
 // Các route liên quan đến một điểm du lịch cụ thể
 router.route("/:id")
   .get(destinationsController.getDestinationById)

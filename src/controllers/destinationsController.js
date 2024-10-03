@@ -27,6 +27,24 @@ exports.getAllDestinations = async (req, res) => {
   }
 };
 
+// Hàm lấy tất cả destination theo type
+exports.getDestinationsByType = async (req, res) => {
+  const { type } = req.params;
+
+  try {
+      if (!type) {
+          return res.status(400).json({ message: 'Type không hợp lệ.' });
+      }
+
+      // Tìm các điểm đến theo type
+      const destinations = await destinationsService.getDestinationsByType(type);
+      
+      res.status(200).json(destinations);
+  } catch (error) {
+      res.status(500).json({ message: 'Có lỗi xảy ra.', error: error.message });
+  }
+};
+
 // Lấy một điểm du lịch theo ID
 exports.getDestinationById = async (req, res) => {
   try {

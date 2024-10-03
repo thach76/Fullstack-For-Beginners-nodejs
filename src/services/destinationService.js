@@ -11,6 +11,11 @@ const getAllDestinations = async () => {
   return await Destination.find();
 };
 
+// Hàm lấy tất cả destination theo type
+const getDestinationsByType = async (type) => {
+  return await Destination.find({ type }).sort({ created_at: -1 });
+};
+
 // Lấy một điểm du lịch theo ID
 const getDestinationById = async (id) => {
   return await Destination.findById(id);
@@ -93,6 +98,7 @@ const getAllImages = async (destinationId) => {
 module.exports = {
   createDestination,
   getAllDestinations,
+  getDestinationsByType,
   getDestinationById,
   updateDestination,
   deleteDestination,

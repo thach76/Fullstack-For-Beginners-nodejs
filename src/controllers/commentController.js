@@ -64,7 +64,7 @@ const deleteComment = async (req, res) => {
 const getCommentsByUserId = async (req, res) => {
     try {
         const { user_id } = req.params;
-        const comments = await Comment.find({ user_id });
+        const comments = await Comment.find({ user_id }).sort({ created_at: -1 });;
 
         if (!comments) {
             return res.status(404).json({ message: 'Không tìm thấy comment cho user này.' });
@@ -93,7 +93,47 @@ const getCommentsByDestinationId = async (req, res) => {
     }
 };
 
+// Lấy tất cả comment có description_id
 
+const getCommentsByDestination = async (req, res) => {
+    try {
+        // Tìm tất cả các comments có destination_id không null
+        const comments = await Comment.find({ destination_id: { $ne: null } }).sort({ created_at: -1 });
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error: error.message });
+    }
+};
+
+
+// Lấy comment theo news_id
+const getCommentsByNewsId = async (req, res) => {
+    const { news_id } = req.params;
+    try {
+        if (!news_id) {
+            return res.status(400).json({ message: 'news_id không hợp lệ.' });
+        }
+        
+        // Sắp xếp theo created_at, từ mới nhất đến cũ nhất
+        const comments = await Comment.find({ news_id }).sort({ created_at: -1 });
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error: error.message , req_status: destination_id});
+    }
+};
+
+const getCommentsByNews = async (req, res) => {
+    try {
+        // Tìm tất cả các comments có destination_id không null
+        const comments = await Comment.find({ news_id: { $ne: null } }).sort({ created_at: -1 });
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error: error.message });
+    }
+};
 
 module.exports = {
     getAllComments,
@@ -103,4 +143,7 @@ module.exports = {
     deleteComment,
     getCommentsByUserId,
     getCommentsByDestinationId,
+    getCommentsByDestination,
+    getCommentsByNewsId,
+    getCommentsByNews,
 };

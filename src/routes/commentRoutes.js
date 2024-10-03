@@ -4,11 +4,16 @@ const commentController = require('../controllers/commentController');
 const router = express.Router();
 
 // Định nghĩa các route cho comment
-// Route để lấy comment theo user_id
+// Route để lấy các comment theo user_id
 router.get('/user/:user_id', commentController.getCommentsByUserId);
 
-// Route để lấy comment theo destination_id
+// Route để lấy các comment theo destination_id
 router.get('/destination/:destination_id', commentController.getCommentsByDestinationId);
+router.get('/destination', commentController.getCommentsByDestination);
+
+// Route để lấy các comment theo news_id
+router.get('/news/:news_id', commentController.getCommentsByNewsId);
+router.get('/news', commentController.getCommentsByNews);
 
 router.post('/', commentController.createComment); // Tạo comment mới
 router.get('/', commentController.getAllComments); // Lấy tất cả comment
