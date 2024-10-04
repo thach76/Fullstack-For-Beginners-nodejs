@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const destinationsController = require('../controllers/destinationsController');
 
+// Lấy tất cả ảnh
+router.get("/images", destinationsController.getAllImages);
+
+// Lấy tất cả video
+ router.get("/videos", destinationsController.getAllVideos);
+
 // Lấy n ngẫu nhiên điểm du lịch
 router.get("/random", destinationsController.getRandomDestinations);
 
@@ -21,14 +27,14 @@ router.route("/:id")
   .delete(destinationsController.deleteDestination);
 
 // Các route lấy ngẫu nhiên từ một điểm du lịch cụ thể
-router.get("/:id/images/random", destinationsController.getRandomImages);
-router.get("/:id/videos/random", destinationsController.getRandomVideos);
+router.get("/:id/images/random", destinationsController.getRandomImagesById);
+router.get("/:id/videos/random", destinationsController.getRandomVideosById);
 
-// Lấy tất cả ảnh
-router.get("/:id/images", destinationsController.getAllImages);
+// Lấy tất cả ảnh theo id
+router.get("/:id/images", destinationsController.getAllImagesById);
 
-// Lấy tất cả video
-router.get("/:id/videos", destinationsController.getAllVideos);
+// Lấy tất cả video id
+router.get("/:id/videos", destinationsController.getAllVideosById);
 
 
 module.exports = router;

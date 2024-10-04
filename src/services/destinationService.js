@@ -54,13 +54,13 @@ const getRandomDestinations = async (type, count) => {
 };
 
 // Hàm lấy tất cả ảnh
-const getAllImages = async (destinationId) => {
+const getAllImagesById = async (destinationId) => {
     const destination = await Destination.findById(destinationId);
     return destination ? destination.images : [];
   };
   
   // Hàm lấy tất cả video
-  const getAllVideos = async (destinationId) => {
+  const getAllVideosById = async (destinationId) => {
     const destination = await Destination.findById(destinationId);
     return destination ? destination.videos : [];
   };
@@ -93,6 +93,22 @@ const getAllImages = async (destinationId) => {
       return result;
     }
   };
+
+  // Lấy tất cả ảnh
+  const getAllImages = async () => {
+    // Lấy tất cả các điểm đến
+    const destinations = await Destination.find({}, 'images');
+    // Gộp tất cả hình ảnh của các điểm đến vào một mảng
+    return destinations.flatMap(destination => destination.images);
+  };
+
+  // Hàm lấy tất cả video
+  const getAllVideos = async () => {
+    // Lấy tất cả các điểm đến
+    const destinations = await Destination.find({}, 'videos');
+    // Gộp tất cả hình ảnh của các điểm đến vào một mảng
+    return destinations.flatMap(destination => destination.videos);
+  };
   
 
 module.exports = {
@@ -103,7 +119,9 @@ module.exports = {
   updateDestination,
   deleteDestination,
   getRandomDestinations,
+  getAllImagesById,
+  getAllVideosById,
+  getRandomItems,
   getAllImages,
   getAllVideos,
-  getRandomItems,
 };

@@ -78,18 +78,6 @@ exports.deleteDestination = async (req, res) => {
   }
 };
 
-// Lấy ngẫu nhiên n điểm đến
-// exports.getRandomDestinations = async (req, res) => {
-//   const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
-
-//   try {
-//     const destinations = await destinationsService.getRandomDestinations(count);
-//     res.status(200).json(destinations);
-//   } catch (error) {
-//     console.error("Error retrieving random destinations:", error);
-//     res.status(500).json({ message: "Lỗi khi lấy điểm du lịch getRandomDestinations", error });
-//   }
-// };
 
 // Lấy ngẫu nhiên n điểm đến, có thể lọc theo type (nếu có)
 exports.getRandomDestinations = async (req, res) => {
@@ -106,11 +94,11 @@ exports.getRandomDestinations = async (req, res) => {
 };
 
 // Lấy ngẫu nhiên n ảnh
-exports.getRandomImages = async (req, res) => {
+exports.getRandomImagesById = async (req, res) => {
   const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
 
   try {
-    const images = await destinationsService.getAllImages(req.params.id);
+    const images = await destinationsService.getAllImagesById(req.params.id);
     const randomImages = destinationsService.getRandomItems(images, count);
     res.status(200).json(randomImages);
   } catch (error) {
@@ -118,10 +106,10 @@ exports.getRandomImages = async (req, res) => {
   }
 };
 
-// Lấy tất cả ảnh
-exports.getAllImages = async (req, res) => {
+// Lấy tất cả ảnh theo id
+exports.getAllImagesById = async (req, res) => {
   try {
-    const images = await destinationsService.getAllImages(req.params.id);
+    const images = await destinationsService.getAllImagesById(req.params.id);
     res.status(200).json(images);
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy ảnh", error });
@@ -130,10 +118,10 @@ exports.getAllImages = async (req, res) => {
 
 
 // API lấy ngẫu nhiên n video
-exports.getRandomVideos = async (req, res) => {
+exports.getRandomVideosById = async (req, res) => {
   const count = parseInt(req.query.count) || 1;  // Số lượng đối tượng cần lấy, mặc định là 1
   try {
-    const destination = await destinationsService.getDestinationById(req.params.id);
+    const destination = await destinationsService.getAllVideosById(req.params.id);
     const randomVideo = destinationsService.getRandomItems(destination.video, count);
     res.status(200).json({ video: randomVideo });
   } catch (error) {
@@ -143,13 +131,32 @@ exports.getRandomVideos = async (req, res) => {
 
 
 
-// Lấy tất cả video
-exports.getAllVideos = async (req, res) => {
+// Lấy tất cả video theo id
+exports.getAllVideosById = async (req, res) => {
   try {
-    const videos = await destinationsService.getAllVideos(req.params.id);
+    const videos = await destinationsService.getAllVideosById(req.params.id);
     res.status(200).json(videos);
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy video", error });
   }
 };
 
+exports.getAllVideos = async (req, res) => {
+  try {
+    const videos = await destinationsService.getAllVideos();
+    res.status(200).json(videos);
+  } catch (error) {
+    console.error('Lỗi khi lấy video:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi lấy video' });
+  }
+};
+
+exports.getAllImages = async (req, res) => {
+  try {
+    const videos = await destinationsService.getAllImages();
+    res.status(200).json(videos);
+  } catch (error) {
+    console.error('Lỗi khi lấy hình ảnh:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi lấy hình ảnh' });
+  }
+};
